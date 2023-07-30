@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todo app</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+<body class="bg-blue-300">
+
+    <div class="grid grid-cols-2" id="main-container">
+        
+        <div class="col-span-2 row-span-1 p-1 m-1 flex flex-col items-center justify-center">
+            <input type="text" class="bg-white p-2 m-1 shadow-xl rounded-lg w-11/12 text-center" id="input-todo">
+            <button class="w-4/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900" id="input-todo-button">ADD</button>
+        </div>
+
+        <div class="col-span-2 grid grid-cols-2">
+            <h1 class="col-span-1 text-center self-center w-2/4 m-auto mt-10 py-2 bg-gray-100 border-4 border-white rounded-lg">TO-DO</h1>
+            <h1 class="col-span-1 text-center self-center w-2/4 m-auto mt-10 py-2 bg-gray-100 border-4 border-white rounded-lg">COMPLETE</h1>
+        </div>
+        
+        <div class="col-span-1 bg-gray-100 p-5 m-5 shadow-xl rounded-lg" id="todo-section">
+            <!--Things todo added here-->
+        </div>
+        
+        <div class="col-span-1 bg-gray-100 p-5 m-5 shadow-xl rounded-lg" id="complete-section"></div>
+    </div>
+
+
+    <script src="main.js"></script>
+</body>
+</html>
+
+<!-- 
+    
+<div class="basis-full bg-white p-3 m-3 flex flex-row shadow-xl rounded-lg">
+    <p class="todo-item basis-9/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md">Thing to do</p>
+    <button class="todo-item max-h-10 self-center basis-3/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-blue-500 hover:border-2 hover:border-solid hover:border-green-900">complete</button>
+    <button class="todo-item max-h-10 self-center basis-3/12 bg-red-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900">delete</button>
+</div> 
+
+-->
