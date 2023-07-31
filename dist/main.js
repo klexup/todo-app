@@ -1,42 +1,101 @@
+const STORAGE_KEY = 'todos'
+if (localStorage.getItem(STORAGE_KEY) == null || localStorage.getItem(STORAGE_KEY) == undefined){
+localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
+} 
+const ARRAY_OF_TODOS = JSON.parse(localStorage.getItem(STORAGE_KEY))
+
 window.onload = () => {
-
-    //populate page with saved todos
-    let counter = 1
-    let todoItem = localStorage.getItem(`todoNote-${counter}`)
-
-    while(todoItem != null || todoItem != undefined){
-        addToDo(todoItem)
-        counter += 1
-        todoItem = localStorage.getItem(`todoNote-${counter}`)
-    }
-    //-------------------------------
+    ARRAY_OF_TODOS.forEach((todoItem) => {
+        const id = todoItem['todo-id'];
+        const completed = todoItem['completed'];
+        const todoMessage = todoItem['todo-message'];
+        renderTodos(todoMessage,id,completed)
+    });
 }
-
-localStorage.setItem("todo", "go to gym")
-sessionStorage.setItem("todo", "get some gas")
-
-
-
-
 
 
 //-----------------------------------------------------------tool functions-------------------------------------------------------
+function renderTodos(todoText,todoId,todoComplete){
+    const todoMessage = todoText
+    const ID = todoId
+    const complete = todoComplete
 
-function addToDo(todoMessage){
+    if(complete===true){
+        const parent = document.querySelector("#complete-section")
+        const div = document.createElement("div")
+        const p = document.createElement("p")
+        const buttonComplete = document.createElement("button")
+        const buttonDelete = document.createElement("button")
+    //--------------------------------------------------------------------------------------------------------------------------
+        div.setAttribute("class","basis-full bg-white p-3 m-3 flex flex-row shadow-xl rounded-lg")
+        div.style.backgroundColor = "#22c55e"
+        div.setAttribute("data-id",`${ID}`)
+        p.setAttribute("class","todo-item basis-9/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md")
+        buttonComplete.setAttribute("class","complete-button todo-item max-h-10 self-center basis-3/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-blue-500 hover:border-2 hover:border-solid hover:border-blue-900")
+        buttonDelete.setAttribute("class","delete-button todo-item max-h-10 self-center basis-3/12 bg-red-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
+    //appending all inner components of a new todo to the div & setting the innerText on the todo
+    
+        p.innerText = todoMessage;
+    
+        buttonComplete.innerText = "undo";
+        buttonDelete.innerText = "delete";
+    
+        div.append(p)
+        div.append(buttonComplete)
+        div.append(buttonDelete)
+    //appending that div to the parent container
+        parent.append(div)
+    }else{
+        const parent = document.querySelector("#todo-section")
+        const div = document.createElement("div")
+        const p = document.createElement("p")
+        const buttonComplete = document.createElement("button")
+        const buttonDelete = document.createElement("button")
+    //--------------------------------------------------------------------------------------------------------------------------
+        div.setAttribute("class","basis-full bg-white p-3 m-3 flex flex-row shadow-xl rounded-lg")
+        div.setAttribute("data-id",`${ID}`)
+        p.setAttribute("class","todo-item basis-9/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md")
+        buttonComplete.setAttribute("class","complete-button todo-item max-h-10 self-center basis-3/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900")
+        buttonDelete.setAttribute("class","delete-button todo-item max-h-10 self-center basis-3/12 bg-red-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
+    //appending all inner components of a new todo to the div & setting the innerText on the todo
+    
+        p.innerText = todoMessage;
+    
+        buttonComplete.innerText = "complete";
+        buttonDelete.innerText = "delete";
+    
+        div.append(p)
+        div.append(buttonComplete)
+        div.append(buttonDelete)
+    //appending that div to the parent container
+        parent.append(div)
+    }
+}
+
+
+function createNewTodo(todoMessage){
+    //creating json todo and pushing it to ARRAY_OF_TODOS and then updating the localStorage by saving the updated array
+    const ID = Date.now()
+    const COMPLETED = false
+
+    const newTodoJson = {
+                        "todo-message": todoMessage,
+                        "todo-id": ID, 
+                        "completed": COMPLETED
+                        }
+
+    ARRAY_OF_TODOS.push(newTodoJson)
+    localStorage.setItem(STORAGE_KEY,JSON.stringify(ARRAY_OF_TODOS))
+
+    //------------------------------------------------------------------------
     const parent = document.querySelector("#todo-section")
-
     const div = document.createElement("div")
     const p = document.createElement("p")
     const buttonComplete = document.createElement("button")
     const buttonDelete = document.createElement("button")
-
-    //setting the key as a data attribute on the div element
-    const todoNoteValue = localStorage.getItem("todoCounter");
-    const newNote = `todoNote-${todoNoteValue}`;
-    div.setAttribute("data-key", newNote);
-
-
+//--------------------------------------------------------------------------------------------------------------------------
     div.setAttribute("class","basis-full bg-white p-3 m-3 flex flex-row shadow-xl rounded-lg")
+    div.setAttribute("data-id",`${ID}`)
     p.setAttribute("class","todo-item basis-9/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md")
     buttonComplete.setAttribute("class","complete-button todo-item max-h-10 self-center basis-3/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900")
     buttonDelete.setAttribute("class","delete-button todo-item max-h-10 self-center basis-3/12 bg-red-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
@@ -58,46 +117,24 @@ document.querySelector("#input-todo-button").onclick = ()=>{
     if(todoText.length < 1){
         todoTextSection.focus();
         
-        todoTextSection.style.borderWidth = "3px"
+        todoTextSection.style.borderWidth = "2px"
         todoTextSection.style.borderStyle = "solid";
         todoTextSection.style.borderColor = "red";
+        //adding a pulse animation that dissapears after 2 seconds (1 pulse)
+        todoTextSection.setAttribute("class","bg-white p-2 m-1 shadow-xl rounded-lg w-11/12 text-center animate-pulse")
+
+        setTimeout(() => {
+            todoTextSection.setAttribute("class","bg-white p-2 m-1 shadow-xl rounded-lg w-11/12 text-center")
+        }, 2000);
+
     } else {
-
-        if(localStorage.getItem("todoCounter") === null) {
-            localStorage.setItem("todoCounter", 0);
+            //using createNewTodo when text is at least 1 character long in the input text box{
             todoTextSection.style.borderStyle = "initial"
             todoTextSection.style.borderColor = "initial"
             todoTextSection.style.borderWidth = "initial"
 
-            //parsing the localStorage todoCounter for its value and incrementing by 1
-            localStorage.setItem("todoCounter", parseInt(localStorage.getItem("todoCounter")) + 1);
-
-            //retrieve the value from local storage
-            const todoNoteValue = localStorage.getItem("todoCounter");
-
-            //setting a new todo in local storage
-            const newNote = `todoNote-${todoNoteValue}`;
-            localStorage.setItem(newNote, todoText);
-
-            addToDo(todoText)
-        }else{
-            todoTextSection.style.borderStyle = "initial"
-            todoTextSection.style.borderColor = "initial"
-            todoTextSection.style.borderWidth = "initial"
-
-            //parsing the localStorage todoCounter for its value and incrementing by 1
-            localStorage.setItem("todoCounter", parseInt(localStorage.getItem("todoCounter")) + 1);
-
-            //retrieve the value from local storage
-            const todoNoteValue = localStorage.getItem("todoCounter");
-
-            //setting a new todo in local storage
-            const newNote = `todoNote-${todoNoteValue}`;
-            localStorage.setItem(newNote, todoText);
-
-            addToDo(todoText)
+            createNewTodo(todoText)
         }
-    }
 }
 
 //complete and delete section buttion actions---------------------------------------------------
@@ -105,16 +142,19 @@ document.querySelector("#input-todo-button").onclick = ()=>{
 document.querySelector("#todo-section").addEventListener("click", function(event) {
     if (event.target.classList.contains("delete-button")) {
         const parent = event.target.parentElement;
-
-        //get the key from the data attribute and remove the item from localStorage
-        const key = parent.getAttribute("data-key");
-        localStorage.removeItem(key);
-
+    
+        //get the key from the data attribute
+        const key = parent.getAttribute("data-id");
+        //find the index of the todo item in the ARRAY_OF_TODOS
+        const index = ARRAY_OF_TODOS.findIndex(todo => todo["todo-id"] === Number(key));
+        //remove the todo item from the ARRAY_OF_TODOS
+        ARRAY_OF_TODOS.splice(index, 1);
+        //save the updated ARRAY_OF_TODOS back to localStorage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
+    
         parent.remove();
-
-        currentTodoCounter = localStorage.getItem("todoCounter")
-        localStorage.setItem("todoCounter",`${currentTodoCounter-1}`)
     }
+    
 });
 
 document.querySelector("#todo-section").addEventListener("click", function(event) {
@@ -123,27 +163,42 @@ document.querySelector("#todo-section").addEventListener("click", function(event
         const parent = event.target.parentElement;
         const completeButton = parent.querySelector(".complete-button")
 
-
         completeButton.setAttribute("class","complete-button todo-item max-h-10 self-center basis-3/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-blue-500 hover:border-2 hover:border-solid hover:border-blue-900")
         completeButton.innerText="undo"
 
         parent.style.backgroundColor = "#22c55e"
+
+        // get the todo-id from the parent's data-id attribute
+        const todoId = parent.getAttribute("data-id");
+        
+        // find the corresponding todo item in the ARRAY_OF_TODOS
+        const todoItem = ARRAY_OF_TODOS.find(todo => todo["todo-id"] === Number(todoId));
+
+        // update the 'completed' field to true
+        todoItem.completed = true;
+
+        // update localStorage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
+
         parentToMoveTo.append(parent)
     }
 });
 
+
 document.querySelector("#complete-section").addEventListener("click", function(event) {
     if (event.target.classList.contains("delete-button")) {
         const parent = event.target.parentElement;
-
-        //get the key from the data attribute and remove the item from localStorage
-        const key = parent.getAttribute("data-key");
-        localStorage.removeItem(key);
-
+    
+        //get the key from the data attribute
+        const key = parent.getAttribute("data-id");
+        //find the index of the todo item in the ARRAY_OF_TODOS
+        const index = ARRAY_OF_TODOS.findIndex(todo => todo["todo-id"] === Number(key));
+        //remove the todo item from the ARRAY_OF_TODOS
+        ARRAY_OF_TODOS.splice(index, 1);
+        //save the updated ARRAY_OF_TODOS back to localStorage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
+    
         parent.remove();
-
-        currentTodoCounter = localStorage.getItem("todoCounter")
-        localStorage.setItem("todoCounter",`${currentTodoCounter-1}`)
     }
 });
 
@@ -157,8 +212,20 @@ document.querySelector("#complete-section").addEventListener("click", function(e
         completeButton.innerText="complete"
 
         parent.style.backgroundColor = "#fcfcfc"
-        parentToMoveTo.append(parent)
 
+        // get the todo-id from the parent's data-id attribute
+        const todoId = parent.getAttribute("data-id");
+        
+        // find the corresponding todo item in the ARRAY_OF_TODOS
+        const todoItem = ARRAY_OF_TODOS.find(todo => todo["todo-id"] === Number(todoId));
+
+        // update the 'completed' field to true
+        todoItem.completed = false;
+
+        // update localStorage
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
+
+        parentToMoveTo.append(parent)
     }
 });
 
