@@ -113,12 +113,12 @@ function renderTodos(todoText,todoId,todoComplete){
         const buttonComplete = document.createElement("button")
         const buttonDelete = document.createElement("button")
     //--------------------------------------------------------------------------------------------------------------------------
-        div.setAttribute("class","basis-full bg-white p-3 m-3 flex flex-row shadow-xl rounded-lg")
+        div.setAttribute("class","bg-white p-3 m-3 grid grid-cols-2 shadow-xl rounded-lg")
         div.style.backgroundColor = "#22c55e"
         div.setAttribute("data-id",`${ID}`)
-        p.setAttribute("class","todo-item basis-9/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md")
-        buttonComplete.setAttribute("class","complete-button todo-item max-h-10 self-center basis-3/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-blue-500 hover:border-2 hover:border-solid hover:border-blue-900")
-        buttonDelete.setAttribute("class","delete-button todo-item max-h-10 self-center basis-3/12 bg-red-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
+        p.setAttribute("class","todo-item col-span-2 bg-blue-300 m-0.5 p-1 rounded-lg shadow-md")
+        buttonComplete.setAttribute("class","complete-button todo-item col-span-1 bg-blue-300 m-3 p-0.5 rounded-lg shadow-md border-2 border-blue-500 hover:border-2 hover:border-solid hover:border-blue-900")
+        buttonDelete.setAttribute("class","delete-button todo-item col-span-1 bg-red-500 m-3 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
     //appending all inner components of a new todo to the div & setting the innerText on the todo
     
         p.innerText = todoMessage;
@@ -131,6 +131,7 @@ function renderTodos(todoText,todoId,todoComplete){
         div.append(buttonDelete)
     //appending that div to the parent container
         parent.append(div)
+        emptyTodoChecksLeft()
     }else{
         const parent = document.querySelector("#todo-section")
         const div = document.createElement("div")
@@ -138,11 +139,11 @@ function renderTodos(todoText,todoId,todoComplete){
         const buttonComplete = document.createElement("button")
         const buttonDelete = document.createElement("button")
     //--------------------------------------------------------------------------------------------------------------------------
-        div.setAttribute("class","basis-full bg-white p-3 m-3 flex flex-row shadow-xl rounded-lg")
+        div.setAttribute("class","bg-white p-3 m-3 grid grid-cols-2 shadow-xl rounded-lg")
         div.setAttribute("data-id",`${ID}`)
-        p.setAttribute("class","todo-item basis-9/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md")
-        buttonComplete.setAttribute("class","complete-button todo-item max-h-10 self-center basis-3/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900")
-        buttonDelete.setAttribute("class","delete-button todo-item max-h-10 self-center basis-3/12 bg-red-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
+        p.setAttribute("class","todo-item col-span-2 bg-blue-300 m-0.5 p-1 rounded-lg shadow-md")
+        buttonComplete.setAttribute("class","complete-button todo-item col-span-1 bg-green-500 m-3 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900")
+        buttonDelete.setAttribute("class","delete-button todo-item col-span-1 bg-red-500 m-3 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
     //appending all inner components of a new todo to the div & setting the innerText on the todo
     
         p.innerText = todoMessage;
@@ -155,6 +156,7 @@ function renderTodos(todoText,todoId,todoComplete){
         div.append(buttonDelete)
     //appending that div to the parent container
         parent.append(div)
+        emptyTodoChecksRight()
     }
     emptyTodoChecks()
 }
@@ -182,11 +184,11 @@ function createNewTodo(todoMessage){
     const buttonComplete = document.createElement("button")
     const buttonDelete = document.createElement("button")
 //--------------------------------------------------------------------------------------------------------------------------
-    div.setAttribute("class","basis-full bg-white p-3 m-3 flex flex-row shadow-xl rounded-lg")
+    div.setAttribute("class","bg-white p-3 m-3 grid grid-cols-2 shadow-xl rounded-lg")
     div.setAttribute("data-id",`${ID}`)
-    p.setAttribute("class","todo-item basis-9/12 bg-blue-300 m-0.5 p-0.5 rounded-lg shadow-md")
-    buttonComplete.setAttribute("class","complete-button todo-item max-h-10 self-center basis-3/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900")
-    buttonDelete.setAttribute("class","delete-button todo-item max-h-10 self-center basis-3/12 bg-red-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
+    p.setAttribute("class","todo-item col-span-2 bg-blue-300 m-0.5 p-1 rounded-lg shadow-md")
+    buttonComplete.setAttribute("class","complete-button todo-item col-span-1 bg-green-500 m-3 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900")
+    buttonDelete.setAttribute("class","delete-button todo-item col-span-1 bg-red-500 m-3 p-0.5 rounded-lg shadow-md border-2 border-red-500 hover:border-2 hover:border-solid hover:border-red-900")
 //appending all inner components of a new todo to the div & setting the innerText on the todo
     p.innerText = todoMessage;
     buttonComplete.innerText = "complete";
@@ -210,10 +212,10 @@ document.querySelector("#input-todo-button").onclick = ()=>{
         todoTextSection.style.borderStyle = "solid";
         todoTextSection.style.borderColor = "red";
         //adding a pulse animation that dissapears after 2 seconds (1 pulse)
-        todoTextSection.setAttribute("class","bg-white p-2 m-1 shadow-xl rounded-lg w-11/12 text-center animate-pulse")
+        todoTextSection.setAttribute("class","bg-white p-4 m-1 shadow-xl rounded-lg w-11/12 text-center animate-pulse")
 
         setTimeout(() => {
-            todoTextSection.setAttribute("class","bg-white p-2 m-1 shadow-xl rounded-lg w-11/12 text-center")
+            todoTextSection.setAttribute("class","bg-white p-4 m-1 shadow-xl rounded-lg w-11/12 text-center")
         }, 2000);
 
     } else {

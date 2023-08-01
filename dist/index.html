@@ -6,26 +6,29 @@
     <title>Todo app</title>
     <link rel="stylesheet" href="output.css">
 </head>
-<body class="bg-blue-300">
+<body class="h-screen">
 
-    <div class="grid grid-cols-2" id="main-container">
+    <main class="bg-blue-300 m-5 p-2 rounded-lg h-fit shadow-black shadow-lg">
+        <div class="grid grid-cols-2" id="main-container">
         
-        <div class="col-span-2 row-span-1 p-1 m-1 flex flex-col items-center justify-center">
-            <input type="text" class="bg-white p-2 m-1 shadow-xl rounded-lg w-11/12 text-center" id="input-todo">
-            <button class="w-4/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900" id="input-todo-button">ADD</button>
-        </div>
+            <div class="col-span-2 row-span-1 p-1 m-1 flex flex-col items-center justify-center">
+                <input type="text" class="bg-white p-4 m-1 shadow-xl rounded-lg w-11/12 text-center" id="input-todo">
+                <button class="w-4/12 bg-green-500 m-0.5 p-0.5 rounded-lg shadow-md border-2 border-green-500 hover:border-2 hover:border-solid hover:border-green-900" id="input-todo-button">ADD</button>
+            </div>
+    
+            <div class="col-span-2 grid grid-cols-2">
+                <h1 class="sm:hidden md:block lg:block hidden col-span-1 text-center self-center w-2/4 m-auto mt-10 py-2 bg-gray-100 border-4 border-white rounded-lg">TO-DO</h1>
+                <h1 class="sm:hidden md:block lg:block hidden col-span-1 text-center self-center w-2/4 m-auto mt-10 py-2 bg-gray-100 border-4 border-white rounded-lg">COMPLETE</h1>
+            </div>
 
-        <div class="col-span-2 grid grid-cols-2">
-            <h1 class="col-span-1 text-center self-center w-2/4 m-auto mt-10 py-2 bg-gray-100 border-4 border-white rounded-lg">TO-DO</h1>
-            <h1 class="col-span-1 text-center self-center w-2/4 m-auto mt-10 py-2 bg-gray-100 border-4 border-white rounded-lg">COMPLETE</h1>
+            <div class="sm:col-span-2 md:col-span-1 lg:col-span-1 col-span-2 bg-gray-100 p-5 m-5 shadow-xl rounded-lg" id="todo-section">
+                <!--Things todo added here-->
+            </div>
+            
+            <div class="sm:col-span-2 md:col-span-1 lg:col-span-1 col-span-2 bg-gray-100 p-5 m-5 shadow-xl rounded-lg" id="complete-section"></div>
         </div>
-        
-        <div class="col-span-1 bg-gray-100 p-5 m-5 shadow-xl rounded-lg" id="todo-section">
-            <!--Things todo added here-->
-        </div>
-        
-        <div class="col-span-1 bg-gray-100 p-5 m-5 shadow-xl rounded-lg" id="complete-section"></div>
-    </div>
+    </main>
+
 
 
     <script src="main.js" defer></script>
