@@ -5,16 +5,102 @@ localStorage.setItem(STORAGE_KEY, JSON.stringify([]));
 const ARRAY_OF_TODOS = JSON.parse(localStorage.getItem(STORAGE_KEY))
 
 window.onload = () => {
-    ARRAY_OF_TODOS.forEach((todoItem) => {
-        const id = todoItem['todo-id'];
-        const completed = todoItem['completed'];
-        const todoMessage = todoItem['todo-message'];
-        renderTodos(todoMessage,id,completed)
-    });
+        ARRAY_OF_TODOS.forEach((todoItem) => {
+            const id = todoItem['todo-id'];
+            const completed = todoItem['completed'];
+            const todoMessage = todoItem['todo-message'];
+            renderTodos(todoMessage,id,completed)
+        });
+
+        emptyTodoChecks()
+    }
+
+
+    
+    //-----------------------------------------------------------tool functions-------------------------------------------------------
+function emptyTodoChecks(){
+    const left = document.querySelector("#todo-section")
+    const right = document.querySelector("#complete-section")
+
+    if(left.firstElementChild === null){
+        const div = document.createElement("div")
+        const p = document.createElement("p")
+
+        div.setAttribute("class","basis-full h-52 bg-white p-5 m-5 flex flex-row shadow-xl rounded-lg")
+        div.setAttribute("data-none","no todos")
+        p.setAttribute("class","todo-item flex-grow bg-blue-300 m-0.5 py-5 rounded-lg shadow-md text-center self-center text-xl")
+        p.innerText = "Add a todo to show up here!";
+        
+        div.append(p)
+    //appending that div to the parent container
+            left.append(div)
+    }else{
+        if (left.firstElementChild && left.firstElementChild.dataset.none === "no todos") {
+            left.firstElementChild.remove();
+        }
+        }
+
+    if(right.firstElementChild === null){
+        const div = document.createElement("div")
+        const p = document.createElement("p")
+
+        div.setAttribute("class","basis-full h-52 bg-white p-5 m-5 flex flex-row shadow-xl rounded-lg")
+        div.setAttribute("data-none","no todos")
+        p.setAttribute("class","todo-item flex-grow bg-blue-300 m-0.5 py-5 rounded-lg shadow-md text-center self-center text-xl")
+        p.innerText = "Completed todos show up here!";
+        
+        div.append(p)
+    //appending that div to the parent container
+        right.append(div)
+    }else{
+            if(right.firstElementChild && right.firstElementChild.dataset.none === "no todos"){
+                right.firstElementChild.remove()
+            }
+    }
 }
 
+function emptyTodoChecksLeft(){
+    const left = document.querySelector("#todo-section")
+    if(left.firstElementChild === null){
+        const div = document.createElement("div")
+        const p = document.createElement("p")
 
-//-----------------------------------------------------------tool functions-------------------------------------------------------
+        div.setAttribute("class","basis-full h-52 bg-white p-5 m-5 flex flex-row shadow-xl rounded-lg")
+        div.setAttribute("data-none","no todos")
+        p.setAttribute("class","todo-item flex-grow bg-blue-300 m-0.5 py-5 rounded-lg shadow-md text-center self-center text-xl")
+        p.innerText = "Add a todo to show up here!";
+        
+        div.append(p)
+    //appending that div to the parent container
+            left.append(div)
+    }else{
+        if (left.firstElementChild && left.firstElementChild.dataset.none === "no todos") {
+            left.firstElementChild.remove();
+        }
+        }
+}
+
+function emptyTodoChecksRight(){
+    const right = document.querySelector("#complete-section")
+    if(right.firstElementChild === null){
+        const div = document.createElement("div")
+        const p = document.createElement("p")
+
+        div.setAttribute("class","basis-full h-52 bg-white p-5 m-5 flex flex-row shadow-xl rounded-lg")
+        div.setAttribute("data-none","no todos")
+        p.setAttribute("class","todo-item flex-grow bg-blue-300 m-0.5 py-5 rounded-lg shadow-md text-center self-center text-xl")
+        p.innerText = "Completed todos show up here!";
+        
+        div.append(p)
+    //appending that div to the parent container
+        right.append(div)
+    }else{
+            if(right.firstElementChild && right.firstElementChild.dataset.none === "no todos"){
+                right.firstElementChild.remove()
+            }
+    }
+}
+
 function renderTodos(todoText,todoId,todoComplete){
     const todoMessage = todoText
     const ID = todoId
@@ -70,10 +156,12 @@ function renderTodos(todoText,todoId,todoComplete){
     //appending that div to the parent container
         parent.append(div)
     }
+    emptyTodoChecks()
 }
 
 
 function createNewTodo(todoMessage){
+    emptyTodoChecks()
     //creating json todo and pushing it to ARRAY_OF_TODOS and then updating the localStorage by saving the updated array
     const ID = Date.now()
     const COMPLETED = false
@@ -109,6 +197,7 @@ function createNewTodo(todoMessage){
     div.append(buttonDelete)
 //appending that div to the parent container
     parent.append(div)
+    emptyTodoChecks()
 }
 
 document.querySelector("#input-todo-button").onclick = ()=>{
@@ -153,6 +242,7 @@ document.querySelector("#todo-section").addEventListener("click", function(event
         localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
     
         parent.remove();
+        emptyTodoChecksLeft()
     }
     
 });
@@ -181,6 +271,7 @@ document.querySelector("#todo-section").addEventListener("click", function(event
         localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
 
         parentToMoveTo.append(parent)
+        emptyTodoChecks()
     }
 });
 
@@ -199,6 +290,7 @@ document.querySelector("#complete-section").addEventListener("click", function(e
         localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
     
         parent.remove();
+        emptyTodoChecksRight()
     }
 });
 
@@ -226,6 +318,7 @@ document.querySelector("#complete-section").addEventListener("click", function(e
         localStorage.setItem(STORAGE_KEY, JSON.stringify(ARRAY_OF_TODOS));
 
         parentToMoveTo.append(parent)
+        emptyTodoChecks()
     }
 });
 
@@ -235,19 +328,3 @@ document.querySelector("#complete-section").addEventListener("click", function(e
 
 
 //-----------------------------------------------------------------------------------------------
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
